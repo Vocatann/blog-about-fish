@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-bg: #F5F5F5;
   --color-text: #1A1A1A;
@@ -8,6 +10,19 @@
   --color-accent-secondary: #10B981;
   --color-card: #FFFFFF;
   --color-border: #D1D5DB;
+
+  --animate-slide-in: slide-in 0.7s ease-in-out forwards;
+
+  @keyframes slide-in {
+    0% {
+      transform: translateX(-50%);
+      opacity: 0; 
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
 }
 
 .dark {

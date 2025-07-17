@@ -8,10 +8,10 @@ export default function Header() {
       <nav>
         <ul className="flex gap-x-10">
           <li>
-            <Link href="/" className="text-lg text-accent">Home</Link>
+            <Link href="/" className="text-lg text-accent hover:opacity-75">Home</Link>
           </li>
           <li>
-            <Link href="/about" className="text-lg text-accent">About</Link>
+            <Link href="/about" className="text-lg text-accent hover:opacity-75">About</Link>
           </li>
         </ul>
       </nav>
