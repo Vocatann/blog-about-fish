@@ -1,11 +1,15 @@
 import type { Metadata } from "next/types";
 
-export type PostMetadata = Metadata & {
-  title: string;
-  description: string;
-};
-
-export type BlogPostData = {
-  slug: string;
+export type PostData = {
   metadata: Metadata;
 };
+
+type PostMetadata = {
+  slug: string;
+  title: string;
+}
+
+export type FullBlogPost = {
+  metadata: PostMetadata;
+  content: string;
+}
