@@ -1,17 +1,6 @@
 import { notFound } from "next/navigation";
 import { PostData, FullBlogPost } from '@/types';
 import * as fs from 'fs';
-import markdownToTxt from 'markdown-to-txt';
-
-// function generatePreview(content: string) {
-//   const maxLength = 150;
-//   const plainText = markdownToTxt(content).trim();
-//   if (plainText.length <= maxLength) return plainText;
-//   const truncated = plainText.substring(0, maxLength);
-//   const lastSpace = truncated.lastIndexOf(' ');
-//   const preview = lastSpace > 0 ? truncated.substring(0, lastSpace) : truncated;
-//   return preview.trim() + '...';
-// }
 
 export async function getAllBlogPosts() {
   const allPostFilenames = fs.readdirSync('src/lib/posts');
