@@ -13,3 +13,8 @@ export type FullBlogPost = {
   metadata: PostMetadata;
   content: string;
 }
+
+export type BotChatMessage = {
+  sender: 'user' | 'bot';
+  text: string;
+};

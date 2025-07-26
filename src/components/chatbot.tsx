@@ -1,10 +1,13 @@
 'use client'
 
+import { BotChatMessage } from "@/types";
 import { useState } from "react";
 
 export default function Chatbot() {
 
   const [ isChatOpen, setIsChatOpen ] = useState(false);
+  const [messages, setMessages] = useState<BotChatMessage[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   const sendHorizontalSvg = 
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send-horizontal-icon lucide-send-horizontal">
@@ -28,6 +31,16 @@ export default function Chatbot() {
   
   const handleChatOpen = () => setIsChatOpen(prev => !prev);
 
+  const handleSendMessage = () => {
+    if (inputValue.trim() !== '') {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { sender: 'user', text: inputValue },
+      ]);
+      setInputValue('');
+    }
+  };
+
   return (
     <div className="absolute right-5 bottom-5 w-[350px] space-y-2">
       <div className="flex justify-end">
@@ -47,16 +60,34 @@ export default function Chatbot() {
               {xSvg}
             </button>
           </div>
-          <div className="mb-auto h-full">
-
+          <div className="mb-auto h-full overflow-y-auto scrollbar-hidden">
+            {messages.map((message, index) => (
+              <div
+                key={index}
+                className={`p-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
+              >
+                <span
+                  className={`inline-block p-2 rounded-3xl ${
+                    message.sender === 'user' ? 'bg-bg text-text' : 'bg-bg text-text'
+                  }`}
+                >
+                  {message.text}
+                </span>
+              </div>
+            ))}
           </div>
           <div className="flex space-x-1">
             <input 
               type="search" 
               placeholder="Message..." 
               className="bg-bg rounded-2xl p-2 w-full"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
             />
-            <button className="flex justify-center items-center  p-2 rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer">
+            <button 
+              onClick={handleSendMessage}
+              className="flex justify-center items-center  p-2 rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+            >
               {sendHorizontalSvg}
             </button>
           </div>

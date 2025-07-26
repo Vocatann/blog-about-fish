@@ -25,6 +25,12 @@
   }
 }
 
+@utility scrollbar-hidden {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .dark {
   --color-bg: #1A1A1A;
   --color-text: #E5E5E5;
