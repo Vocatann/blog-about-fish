@@ -32,12 +32,13 @@ export default function ChatbotWindow() {
   const handleChatOpen = () => setIsChatOpen(prev => !prev);
 
   const handleSendMessage = async (message : string) => {
+    console.log(message)
     if (message.trim() !== '') {
       const userMessage: BotChatMessage = { sender: 'user', text: message };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputValue('');
 
-      const botResponseText = await getBotResponse(inputValue);
+      const botResponseText = await getBotResponse(message);
       const botMessage: BotChatMessage = { sender: 'bot', text: botResponseText };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     }
@@ -99,6 +100,8 @@ export default function ChatbotWindow() {
                 </span>
               </div>
             ))}
+          </div>
+          <div>
             {messages.length === 0 && (
               <div className="flex justify-center space-x-1 m-2 bottom-0">
                 <button 
@@ -115,8 +118,6 @@ export default function ChatbotWindow() {
                 </button>
               </div>
             )}
-          </div>
-          <div>
             <div className="flex space-x-1">
               <input 
                 type="search" 
