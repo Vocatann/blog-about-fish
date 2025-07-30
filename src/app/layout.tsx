@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Header from "@/components/header";
-import Chatbot from "@/components/chatbot";
+import ChatbotWindow from "@/components/chatbot-window";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className="bg-bg">
         <Header/>
         {children}
-        <Chatbot/>
+        <ChatbotWindow/>
       </body>
     </html>
   );

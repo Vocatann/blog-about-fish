@@ -3,7 +3,7 @@
 import { BotChatMessage } from "@/types";
 import { useState } from "react";
 
-export default function Chatbot() {
+export default function ChatbotWindow() {
 
   const [ isChatOpen, setIsChatOpen ] = useState(false);
   const [messages, setMessages] = useState<BotChatMessage[]>([]);
@@ -31,15 +31,39 @@ export default function Chatbot() {
   
   const handleChatOpen = () => setIsChatOpen(prev => !prev);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() !== '') {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { sender: 'user', text: inputValue },
-      ]);
+  const handleSendMessage = async (message : string) => {
+    if (message.trim() !== '') {
+      const userMessage: BotChatMessage = { sender: 'user', text: message };
+      setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputValue('');
+
+      const botResponseText = await getBotResponse(inputValue);
+      const botMessage: BotChatMessage = { sender: 'bot', text: botResponseText };
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
     }
   };
+
+  async function getBotResponse(userMessage: string): Promise<string> {
+    if (userMessage === 'Tell me about this blog') {
+      return '[Short information about the blog]. You could also read more on the about page';
+    } else if (userMessage === 'Tell me a fun fact about fish') {
+      const response = await send(userMessage);
+      return response;
+    } else {
+      const response = await send(userMessage);
+      return response;
+    }
+  }
+
+  async function send(input : string) {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({ prompt: input }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await res.json();
+    return data.choices[0].message.content
+  }
 
   return (
     <div className="absolute right-5 bottom-5 w-[350px] space-y-2">
@@ -68,28 +92,46 @@ export default function Chatbot() {
               >
                 <span
                   className={`inline-block p-2 rounded-3xl ${
-                    message.sender === 'user' ? 'bg-bg text-text' : 'bg-bg text-text'
+                    message.sender === 'user' ? 'bg-accent-secondary text-text' : 'bg-bg text-text'
                   }`}
                 >
                   {message.text}
                 </span>
               </div>
             ))}
+            {messages.length === 0 && (
+              <div className="flex justify-center space-x-1 m-2 bottom-0">
+                <button 
+                  onClick={() => handleSendMessage('Tell me about this blog')}
+                  className="p-1 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+                >
+                  Tell me about this blog
+                </button>
+                <button 
+                  onClick={() => handleSendMessage('Tell me a fun fact about fish')}
+                  className="p-1 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+                >
+                  Tell me a fun fact about fish
+                </button>
+              </div>
+            )}
           </div>
-          <div className="flex space-x-1">
-            <input 
-              type="search" 
-              placeholder="Message..." 
-              className="bg-bg rounded-2xl p-2 w-full"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <button 
-              onClick={handleSendMessage}
-              className="flex justify-center items-center  p-2 rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
-            >
-              {sendHorizontalSvg}
-            </button>
+          <div>
+            <div className="flex space-x-1">
+              <input 
+                type="search" 
+                placeholder="Message..." 
+                className="bg-bg rounded-2xl p-2 w-full"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              <button 
+                onClick={() => handleSendMessage(inputValue)}
+                className="flex justify-center items-center  p-2 rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+              >
+                {sendHorizontalSvg}
+              </button>
+            </div>
           </div>
         </div>
       </div>
