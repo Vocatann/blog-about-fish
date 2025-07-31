@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 import ChatbotWindow from "@/components/chatbot-window";
 
 export const metadata: Metadata = {
@@ -15,11 +16,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-bg">
+    <html lang="en" className="h-full">
+      <body className="bg-bg h-full flex flex-col">
         <Header/>
-        {children}
+        <div className="flex-grow">
+          {children}
+        </div>
         <ChatbotWindow/>
+        <Footer/>
       </body>
     </html>
   );
