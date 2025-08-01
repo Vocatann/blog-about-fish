@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="border-b-4 border-border h-30 flex items-center px-10">
+    <header className="border-b-4 border-border flex items-center px-10 py-10">
       <nav>
         <ul className="flex gap-x-10">
           <li>

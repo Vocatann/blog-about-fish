@@ -22,8 +22,8 @@ export default function RootLayout({
         <div className="flex-grow">
           {children}
         </div>
-        <ChatbotWindow/>
         <Footer/>
+        <ChatbotWindow/>
       </body>
     </html>
   );
