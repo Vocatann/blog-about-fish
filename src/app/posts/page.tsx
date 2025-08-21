@@ -7,17 +7,19 @@ export default async function HomePosts() {
   const allPosts = await getAllBlogPosts();
 
   return (
-    <main className="flex flex-wrap justify-center gap-x-4 gap-y-4 mt-10">
-      {allPosts.map((post) => {
-        return (
-          <Link 
-            key={post.metadata.slug}
-            href={`/posts/${post.metadata.slug}`}
-          >
-            <PostCard post={post}/>
-          </Link>
-        );
-      })}
+    <main className="mt-10 mx-10">
+      <section className="flex flex-wrap justify-center gap-x-4 gap-y-4">
+        {allPosts.map((post) => {
+          return (
+            <Link 
+              key={post.metadata.slug}
+              href={`/posts/${post.metadata.slug}`}
+            >
+              <PostCard post={post}/>
+            </Link>
+          );
+        })}
+      </section>
     </main>
   )
 }

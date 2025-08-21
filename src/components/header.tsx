@@ -9,6 +9,9 @@ export default function Header() {
             <Link href="/" className="text-lg text-accent hover:opacity-75">Home</Link>
           </li>
           <li>
+            <Link href="/posts" className="text-lg text-accent hover:opacity-75">Articles</Link>
+          </li>
+          <li>
             <Link href="/about" className="text-lg text-accent hover:opacity-75">About</Link>
           </li>
         </ul>
