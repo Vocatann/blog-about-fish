@@ -12,6 +12,7 @@ type PostMetadata = {
 export type FullBlogPost = {
   metadata: PostMetadata;
   content: string;
+  excerpt: string;
 }
 
 export type BotChatMessage = {

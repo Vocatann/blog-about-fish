@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { PostData, FullBlogPost } from '@/types';
 import * as fs from 'fs';
+import { remark } from 'remark';
+import strip from 'strip-markdown';
 
 export async function getAllBlogPosts() {
   const allPostFilenames = fs.readdirSync('src/lib/posts');
@@ -16,9 +18,15 @@ export async function getAllBlogPosts() {
           throw new Error(`Missing some required metadata fields in: ${filename}`);
         }
 
+        const content = fileContent.replace(/export\s+const\s+metadata\s*=\s*{\s*title:\s*["'][^"']*["'],\s*slug:\s*["'][^"']*["'],\s*};/g,"")
+
+        const plainText = await remark().use(strip).process(content);
+        const excerpt = plainText.toString().trim().substring(0, 450) + '...';
+
         allPosts.push({
           metadata: file.metadata,
-          content: fileContent.replace(/export\s+const\s+metadata\s*=\s*{\s*title:\s*["'][^"']*["'],\s*slug:\s*["'][^"']*["'],\s*};/g,""),
+          content: content,
+          excerpt: excerpt,
         })
       } else {
         throw new Error(`Unable to find metadata or content for ${filename}`);
