@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ChatbotWindow from "@/components/chatbot-window";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,14 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <body className="bg-bg h-full flex flex-col gap-y-10">
-        <Header/>
-        <div className="flex-grow">
-          {children}
-        </div>
-        <Footer/>
-        <ChatbotWindow/>
+        <Providers>
+          <Header/>
+          <div className="flex-grow">
+            {children}
+          </div>
+          <Footer/>
+          <ChatbotWindow/>
+        </Providers>
       </body>
     </html>
   );
