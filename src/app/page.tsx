@@ -15,7 +15,7 @@ export default async function Home() {
         </div>
       </section>
       <section className="mx-5 flex flex-wrap justify-center gap-x-4 gap-y-4">
-        {allPosts.map((post) => {
+        {allPosts.slice(0, 6).map((post) => {
           return (
             <Link 
               key={post.metadata.slug}
