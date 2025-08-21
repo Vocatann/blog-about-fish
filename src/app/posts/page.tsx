@@ -7,7 +7,7 @@ export default async function HomePosts() {
   const allPosts = await getAllBlogPosts();
 
   return (
-    <main className="mx-5 flex flex-wrap justify-center gap-x-4 gap-y-4 mt-10">
+    <main className="flex flex-wrap justify-center gap-x-4 gap-y-4 mt-10">
       {allPosts.map((post) => {
         return (
           <Link 
