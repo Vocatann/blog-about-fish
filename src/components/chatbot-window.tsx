@@ -8,6 +8,7 @@ export default function ChatbotWindow() {
   const [ isChatOpen, setIsChatOpen ] = useState(false);
   const [messages, setMessages] = useState<BotChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendHorizontalSvg = 
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send-horizontal-icon lucide-send-horizontal">
@@ -32,15 +33,19 @@ export default function ChatbotWindow() {
   const handleChatOpen = () => setIsChatOpen(prev => !prev);
 
   const handleSendMessage = async (message : string) => {
-    console.log(message)
     if (message.trim() !== '') {
       const userMessage: BotChatMessage = { sender: 'user', text: message };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputValue('');
 
+      setIsLoading(true);
+
       const botResponseText = await getBotResponse(message);
       const botMessage: BotChatMessage = { sender: 'bot', text: botResponseText };
+
       setMessages((prevMessages) => [...prevMessages, botMessage]);
+
+      setIsLoading(false);
     }
   };
 
@@ -93,6 +98,13 @@ export default function ChatbotWindow() {
                 </span>
               </div>
             ))}
+            {isLoading && (
+              <div className="p-2 text-left">
+                <span className="inline-block p-2 rounded-3xl bg-bg text-text italic">
+                  ...
+                </span>
+              </div>
+            )}
           </div>
           <div>
             {messages.length === 0 && (
