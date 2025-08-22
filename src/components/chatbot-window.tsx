@@ -45,14 +45,11 @@ export default function ChatbotWindow() {
   };
 
   async function getBotResponse(userMessage: string): Promise<string> {
-    if (userMessage === 'Tell me about this blog') {
-      return '[Short information about the blog]. You could also read more on the about page';
-    } else if (userMessage === 'Tell me a fun fact about fish') {
+    try {
       const response = await send(userMessage);
-      return response;
-    } else {
-      const response = await send(userMessage);
-      return response;
+      return response.message;
+    } catch {
+      return "Error processing request";
     }
   }
 
@@ -105,10 +102,10 @@ export default function ChatbotWindow() {
             {messages.length === 0 && (
               <div className="flex justify-center space-x-1 m-2 bottom-0">
                 <button 
-                  onClick={() => handleSendMessage('Tell me about this blog')}
+                  onClick={() => handleSendMessage('Suggest me which fish I should read about')}
                   className="p-1 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
                 >
-                  Tell me about this blog
+                  Suggest me which fish I should read about
                 </button>
                 <button 
                   onClick={() => handleSendMessage('Tell me a fun fact about fish')}
