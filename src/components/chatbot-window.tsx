@@ -45,12 +45,8 @@ export default function ChatbotWindow() {
   };
 
   async function getBotResponse(userMessage: string): Promise<string> {
-    try {
-      const response = await send(userMessage);
-      return response.message;
-    } catch {
-      return "Error processing request";
-    }
+    const response = await send(userMessage);
+    return response;
   }
 
   async function send(input : string) {
@@ -60,7 +56,7 @@ export default function ChatbotWindow() {
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
-    return data.choices[0].message.content
+    return data.message;
   }
 
   return (
