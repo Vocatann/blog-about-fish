@@ -11,17 +11,17 @@ type AnchorProps = ComponentPropsWithoutRef<'a'>;
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
     h1: (props: HeadingProps) => (
-      <h1 className='text-lg mb-3' {...props} />
+      <h1 className='text-3xl mb-3' {...props} />
     ),
     h2: (props: HeadingProps) => (
       <h2
-        className="mb-3"
+        className="text-2xl mb-3"
         {...props}
       />
     ),
     h3: (props: HeadingProps) => (
       <h3
-        className="mb-3"
+        className="text-xl mb-3"
         {...props}
       />
     ),
