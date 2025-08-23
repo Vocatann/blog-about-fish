@@ -46,7 +46,7 @@ export default function ChatbotWindow() {
   }
 
   return (
-    <div className="fixed right-5 bottom-5 w-[350px] space-y-2">
+    <div className="fixed right-5 bottom-5 space-y-2">
       <div className="flex justify-end">
         <div className={` rounded-xl overflow-hidden p-3 transition-all ease-in-out duration-300 flex flex-col justify-between ${isChatOpen ? 'w-[350px] h-[500px] bg-accent text-text' : 'h-0 w-0 text-bg'}`}>
           <div className="flex justify-between border-b-2 border-border pb-2">
