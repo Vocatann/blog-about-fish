@@ -1,6 +1,7 @@
 import { getAllBlogPosts } from "@/lib/utils"
 import PostCard from "@/components/post-card";
 import Link from "next/link";
+import { moveRightSvg } from "@/lib/svgs";
 
 export default async function Home() {
 
@@ -25,6 +26,9 @@ export default async function Home() {
             </Link>
           );
         })}
+        <div className="mt-10 mx-10 w-full flex justify-end">
+          <Link href="/posts" className="bg-accent py-1 px-2 rounded-lg border-2 border-border hover:opacity-80 flex gap-x-2 items-center">View all posts {moveRightSvg}</Link>
+        </div>
       </section>
     </main>
   );
