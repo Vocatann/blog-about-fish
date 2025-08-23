@@ -7,7 +7,6 @@ export default function Footer() {
         <li><Link href="/about" className="text-accent hover:underline">About page</Link></li>
         <li><a href="https://github.com/Vocatann/blog-about-fish" target="_blank" className="text-accent hover:underline">Github</a></li>
       </ul>
-      <span className="text-center text-xs">All content on this blog is ai generated</span>
     </footer>
   )
 }
