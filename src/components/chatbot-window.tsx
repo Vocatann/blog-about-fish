@@ -5,6 +5,7 @@ import { useState } from "react";
 import { squareArrowOutUpLeftSvg, sendHorizontalSvg, xSvg, threeDotsTypingSvg, botMessageSquareSvg } from "@/lib/svgs";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
+import { baseComponents } from "../../mdx-components";
 
 export default function ChatbotWindow() {
 
@@ -73,19 +74,19 @@ export default function ChatbotWindow() {
                 className={`p-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
               >
                 {message.sender === 'user' ? (
-                  <span
+                  <div
                     className='inline-block p-2 rounded-3xl bg-accent-secondary text-text'
                   >
                     {message.text}
-                  </span>
+                  </div>
                 ) : (
-                  <span
+                  <div
                     className='inline-block p-2 rounded-3xl bg-bg text-text'
                   >
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={baseComponents}>
                       {message.text}
                     </ReactMarkdown>
-                  </span>
+                  </div>
                 )}
               </div>
             ))}
@@ -102,13 +103,13 @@ export default function ChatbotWindow() {
               <div className="flex justify-center space-x-1 m-2 bottom-0">
                 <button 
                   onClick={() => handleSendMessage('Suggest me which fish I should read about')}
-                  className="p-1 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+                  className="p-1 md:p-2 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
                 >
                   Suggest me which fish I should read about
                 </button>
                 <button 
                   onClick={() => handleSendMessage('Tell me a fun fact about fish')}
-                  className="p-1 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
+                  className="p-1 md:p-2 text-sm rounded-3xl bg-bg hover:opacity-75 hover:cursor-pointer"
                 >
                   Tell me a fun fact about fish
                 </button>
