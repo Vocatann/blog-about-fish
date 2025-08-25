@@ -3,6 +3,8 @@
 import { BotChatMessage } from "@/types";
 import { useState } from "react";
 import { squareArrowOutUpLeftSvg, sendHorizontalSvg, xSvg, threeDotsTypingSvg, botMessageSquareSvg } from "@/lib/svgs";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from 'react-markdown';
 
 export default function ChatbotWindow() {
 
@@ -48,7 +50,7 @@ export default function ChatbotWindow() {
   return (
     <div className="fixed right-5 bottom-5 space-y-2">
       <div className="flex justify-end">
-        <div className={` rounded-xl overflow-hidden p-3 transition-all ease-in-out duration-300 flex flex-col justify-between ${isChatOpen ? 'w-[350px] h-[500px] bg-accent text-text' : 'h-0 w-0 text-bg'}`}>
+        <div className={` rounded-xl overflow-hidden p-3 transition-all ease-in-out duration-300 flex flex-col justify-between ${isChatOpen ? 'w-[350px] h-[500px] md:w-[500px] md:h-[600px] bg-accent text-text' : 'h-0 w-0 text-bg'}`}>
           <div className="flex justify-between border-b-2 border-border pb-2">
             <button
               type="button"
@@ -70,18 +72,26 @@ export default function ChatbotWindow() {
                 key={index}
                 className={`p-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
               >
-                <span
-                  className={`inline-block p-2 rounded-3xl ${
-                    message.sender === 'user' ? 'bg-accent-secondary text-text' : 'bg-bg text-text'
-                  }`}
-                >
-                  {message.text}
-                </span>
+                {message.sender === 'user' ? (
+                  <span
+                    className='inline-block p-2 rounded-3xl bg-accent-secondary text-text'
+                  >
+                    {message.text}
+                  </span>
+                ) : (
+                  <span
+                    className='inline-block p-2 rounded-3xl bg-bg text-text'
+                  >
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {message.text}
+                    </ReactMarkdown>
+                  </span>
+                )}
               </div>
             ))}
             {isLoading && (
               <div className="p-2 text-left">
-                <span className="inline-block p-2 rounded-3xl bg-bg text-text italic">
+                <span className="inline-block p-2 rounded-3xl bg-bg text-text">
                   {threeDotsTypingSvg}
                 </span>
               </div>
