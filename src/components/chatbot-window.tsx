@@ -1,7 +1,7 @@
 'use client'
 
 import { BotChatMessage } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { squareArrowOutUpLeftSvg, sendHorizontalSvg, xSvg, threeDotsTypingSvg, botMessageSquareSvg } from "@/lib/svgs";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
@@ -47,6 +47,23 @@ export default function ChatbotWindow() {
     const data = await res.json();
     return data.message;
   }
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        const activeElement = document.activeElement;
+        const isChatInputFocused = activeElement?.id === 'chat-input';
+  
+        if (isChatInputFocused) {
+          handleSendMessage(inputValue);
+        }
+      }
+    };
+  
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
+  });
+
 
   return (
     <div className="fixed right-5 bottom-5 space-y-2">
@@ -117,7 +134,8 @@ export default function ChatbotWindow() {
             )}
             <div className="flex space-x-1">
               <input 
-                type="search" 
+                id="chat-input"
+                type="input" 
                 placeholder="Message..." 
                 className="bg-bg rounded-2xl p-2 w-full"
                 value={inputValue}
