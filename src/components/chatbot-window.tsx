@@ -1,18 +1,18 @@
 'use client'
 
 import { BotChatMessage } from "@/types";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { squareArrowOutUpLeftSvg, sendHorizontalSvg, xSvg, threeDotsTypingSvg, botMessageSquareSvg } from "@/lib/svgs";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
 import { baseComponents } from "../../mdx-components";
 
 export default function ChatbotWindow() {
-
   const [ isChatOpen, setIsChatOpen ] = useState(false);
   const [messages, setMessages] = useState<BotChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const chatRef = useRef<HTMLDivElement>(null);
   
   const handleChatOpen = () => setIsChatOpen(prev => !prev);
 
@@ -54,6 +54,12 @@ export default function ChatbotWindow() {
     }
   };
 
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div className="fixed right-5 bottom-5 space-y-2">
       <div className="flex justify-end">
@@ -73,7 +79,7 @@ export default function ChatbotWindow() {
               {xSvg}
             </button>
           </div>
-          <div className="mb-auto h-full overflow-y-auto scrollbar-hidden">
+          <div ref={chatRef} className="mb-auto h-full overflow-y-auto scrollbar-hidden">
             {messages.map((message, index) => (
               <div
                 key={index}
