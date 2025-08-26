@@ -1,7 +1,7 @@
 'use client'
 
 import { BotChatMessage } from "@/types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { squareArrowOutUpLeftSvg, sendHorizontalSvg, xSvg, threeDotsTypingSvg, botMessageSquareSvg } from "@/lib/svgs";
 import remarkGfm from "remark-gfm";
 import ReactMarkdown from 'react-markdown';
@@ -48,22 +48,11 @@ export default function ChatbotWindow() {
     return data.message;
   }
 
-  useEffect(() => {
-    const handleGlobalKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
-        const activeElement = document.activeElement;
-        const isChatInputFocused = activeElement?.id === 'chat-input';
-  
-        if (isChatInputFocused) {
-          handleSendMessage(inputValue);
-        }
-      }
-    };
-  
-    document.addEventListener('keydown', handleGlobalKeyDown);
-    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
-  });
-
+  const handleSubmitButtonKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      handleSendMessage(inputValue);
+    }
+  };
 
   return (
     <div className="fixed right-5 bottom-5 space-y-2">
@@ -134,11 +123,11 @@ export default function ChatbotWindow() {
             )}
             <div className="flex space-x-1">
               <input 
-                id="chat-input"
                 type="input" 
                 placeholder="Message..." 
                 className="bg-bg rounded-2xl p-2 w-full"
                 value={inputValue}
+                onKeyDown={handleSubmitButtonKeyDown}
                 onChange={(e) => setInputValue(e.target.value)}
               />
               <button 
