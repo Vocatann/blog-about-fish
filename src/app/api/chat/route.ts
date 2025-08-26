@@ -1,12 +1,20 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
+import { BotChatMessage } from '@/types';
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const systemPrompt = 'You are an assistant on a blog about fish, you are very excited about fish and you ove talking about them. Talk in a fun and "fishy" way, add some jokes. If you can suggest user to read about these fish on this blog: clownfish, cod, goldfish, halibut, salmon, sardine, shark, tilapia, trout and tuna'
 
 export async function POST(request: Request) {
   try {
-    const { prompt } = await request.json();
+    const { chatLog }: { chatLog: BotChatMessage[] } = await request.json();
+
+    chatLog.slice(-10);
+
+    const prompt = chatLog
+      .map(msg => `${msg.sender === "user" ? "User" : "Bot"}: ${msg.text}`)
+      .join("\n") + "\nBot:"
+    
     const completion = await openai.chat.completions.create({
       model: 'gpt-4.1-nano',
       messages: [

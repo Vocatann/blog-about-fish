@@ -33,15 +33,10 @@ export default function ChatbotWindow() {
     }
   };
 
-  async function getBotResponse(userMessage: string): Promise<string> {
-    const response = await send(userMessage);
-    return response;
-  }
-
-  async function send(input : string) {
+  async function getBotResponse(userMessage: string) {
     const res = await fetch('/api/chat', {
       method: 'POST',
-      body: JSON.stringify({ prompt: input }),
+      body: JSON.stringify({ chatLog: [...messages, { sender: 'user', text: userMessage }] }),
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
@@ -49,7 +44,7 @@ export default function ChatbotWindow() {
   }
 
   const handleSubmitButtonKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === "Enter") {
       handleSendMessage(inputValue);
     }
   };
