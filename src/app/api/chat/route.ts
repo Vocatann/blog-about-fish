@@ -9,18 +9,11 @@ export async function POST(request: Request) {
   try {
     const { chatLog }: { chatLog: BotChatMessage[] } = await request.json();
 
-    chatLog.slice(-10);
+    const messages: BotChatMessage[] = [{ role: 'system', content: systemPrompt}, ...chatLog.slice(-15)]
 
-    const prompt = chatLog
-      .map(msg => `${msg.sender === "user" ? "User" : "Bot"}: ${msg.text}`)
-      .join("\n") + "\nBot:"
-    
     const completion = await openai.chat.completions.create({
       model: 'gpt-4.1-nano',
-      messages: [
-        { role: 'system', content: systemPrompt},
-        { role: 'user', content: prompt }
-      ],
+      messages: messages,
       max_tokens: 300,
     });
 

@@ -16,6 +16,6 @@ export type FullBlogPost = {
 }
 
 export type BotChatMessage = {
-  sender: 'user' | 'bot';
-  text: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
 };

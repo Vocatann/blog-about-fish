@@ -18,14 +18,14 @@ export default function ChatbotWindow() {
 
   const handleSendMessage = async (message : string) => {
     if (message.trim() !== '') {
-      const userMessage: BotChatMessage = { sender: 'user', text: message };
+      const userMessage: BotChatMessage = { role: 'user', content: message };
       setMessages((prevMessages) => [...prevMessages, userMessage]);
       setInputValue('');
 
       setIsLoading(true);
 
       const botResponseText = await getBotResponse(message);
-      const botMessage: BotChatMessage = { sender: 'bot', text: botResponseText };
+      const botMessage: BotChatMessage = { role: 'assistant', content: botResponseText };
 
       setMessages((prevMessages) => [...prevMessages, botMessage]);
 
@@ -36,7 +36,7 @@ export default function ChatbotWindow() {
   async function getBotResponse(userMessage: string) {
     const res = await fetch('/api/chat', {
       method: 'POST',
-      body: JSON.stringify({ chatLog: [...messages, { sender: 'user', text: userMessage }] }),
+      body: JSON.stringify({ chatLog: [...messages, { role: 'user', content: userMessage }] }),
       headers: { 'Content-Type': 'application/json' },
     });
     const data = await res.json();
@@ -78,20 +78,20 @@ export default function ChatbotWindow() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`p-2 ${message.sender === 'user' ? 'text-right' : 'text-left'}`}
+                className={`p-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`}
               >
-                {message.sender === 'user' ? (
+                {message.role === 'user' ? (
                   <div
                     className='inline-block p-2 rounded-3xl bg-accent-secondary text-text'
                   >
-                    {message.text}
+                    {message.content}
                   </div>
                 ) : (
                   <div
                     className='inline-block p-2 rounded-3xl bg-bg text-text'
                   >
                     <ReactMarkdown remarkPlugins={[remarkGfm]} components={baseComponents}>
-                      {message.text}
+                      {message.content}
                     </ReactMarkdown>
                   </div>
                 )}
