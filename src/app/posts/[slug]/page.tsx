@@ -1,9 +1,10 @@
 import dynamic from 'next/dynamic';
 
-type BlogPageProps = { params: { slug: string } };
+type BlogPageProps = Promise<{ slug: string }>;
 
-export default async function BLogPage({ params }: BlogPageProps) {
-  const { slug } = await params;
+export default async function BLogPage(props: { params: BlogPageProps}) {
+  const params = await props.params;
+  const slug = params.slug;
 
   const BlogMarkdown = dynamic(() => import(`@/lib/posts/${slug}.mdx`));
 
